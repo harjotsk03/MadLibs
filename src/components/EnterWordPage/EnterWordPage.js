@@ -6,14 +6,10 @@ export const EnterWordPage = ({
   setPhase,
   setCompletedStory,
   generateStoryImage,
+  initialStory = "",
+  initialWords = {},
 }) => {
-  const initialStory = `One sunny day in [city], [name] decided to go on an adventure. They packed their favorite [object].`;
-
-  const [words, setWords] = useState({
-    city: "",
-    name: "",
-    object: "",
-  });
+  const [words, setWords] = useState(initialWords);
 
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
 
@@ -52,10 +48,12 @@ export const EnterWordPage = ({
   return (
     <div className="w-screen h-screen overflow-hidden flex flex-col items-center justify-center bg-stone-50">
       <div className="flex flex-col items-start w-1/2 space-y-4">
-        <h1 className="text-2xl font-bold">Theme: {selectedTheme}</h1>
-        <h2 className="text-xl">Enter a {wordKeys[currentWordIndex]}:</h2>
+        <h1 className="text-xl poppins-regular">Theme: {selectedTheme}</h1>
+        <h2 className="text-3xl poppins-semibold">
+          Enter a {wordKeys[currentWordIndex]}:
+        </h2>
         <input
-          className="bg-stone-100 w-full p-2 rounded-lg"
+          className="bg-stone-200 w-full px-4 py-3 rounded-lg mt-2"
           placeholder={`Type a ${wordKeys[currentWordIndex]} here`}
           value={words[wordKeys[currentWordIndex]]}
           onChange={(e) => handleInputChange(e.target.value)}
@@ -64,27 +62,27 @@ export const EnterWordPage = ({
           <button
             onClick={handlePrevious}
             disabled={currentWordIndex === 0}
-            className="px-4 py-2 bg-stone-100 rounded-lg disabled:opacity-50"
+            className="px-4 py-2 bg-stone-100 rounded-lg poppins-medium disabled:opacity-50"
           >
             Previous
           </button>
           {currentWordIndex < wordKeys.length - 1 ? (
             <button
               onClick={handleNext}
-              className="px-4 py-2 bg-purple-600 text-white rounded-lg"
+              className="px-4 py-2 bg-green-600 text-white poppins-medium rounded-lg"
             >
               Next
             </button>
           ) : (
             <button
               onClick={generateStory}
-              className="px-4 py-2 bg-green-600 text-white rounded-lg"
+              className="px-4 py-2 bg-green-600 text-white poppins-medium rounded-lg"
             >
               Generate Story
             </button>
           )}
         </div>
-        <div className="text-sm text-gray-500">
+        <div className="text-sm text-gray-500 poppins-regular">
           Progress: {currentWordIndex + 1} / {wordKeys.length}
         </div>
       </div>

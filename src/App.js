@@ -10,6 +10,8 @@ function App() {
   const [completedStory, setCompletedStory] = useState("");
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [initialStory, setIntialStory] = useState(null);
+  const [initialWords, setInitialWords] = useState(null);
 
   const generateStoryImage = async (storyPrompt) => {
     try {
@@ -23,7 +25,9 @@ function App() {
 
       const response = await openai.images.generate({
         model: "dall-e-3",
-        prompt: storyPrompt + " in a storybook illustration style",
+        prompt:
+          storyPrompt +
+          " create ONE image, do NOT include the text, or any words, or writing of any kind in the image, try to capture as many aspects from the story in one image as possible, make it a van gogh style artwork",
         n: 1,
         size: "1024x1024",
       });
@@ -45,6 +49,8 @@ function App() {
           selectedTheme={selectedTheme}
           setSelectedTheme={setSelectedTheme}
           setPhase={setPhase}
+          setIntialStory={setIntialStory}
+          setInitialWords={setInitialWords}
         />
       )}
       {phase === 2 && (
@@ -53,13 +59,15 @@ function App() {
           setPhase={setPhase}
           setCompletedStory={setCompletedStory}
           generateStoryImage={generateStoryImage}
+          initialStory={initialStory}
+          initialWords={initialWords}
         />
       )}
       {phase === 3 && (
         <div className="w-screen h-screen overflow-hidden flex flex-col items-center justify-center bg-stone-50">
-          <div className="w-1/2 bg-stone-100 p-8 rounded-lg shadow-lg">
-            <h1 className="text-2xl font-bold mb-4">Your Mad Libs Story</h1>
-            <p>{completedStory}</p>
+          <div className="w-screen h-screen bg-stone-100 rounded-lg shadow-lg">
+            {/* <h1 className="text-2xl font-bold mb-4">Your Mad Libs Story</h1>
+            <p>{completedStory}</p> */}
             {loading && (
               <div className="text-center text-gray-600">
                 Creating your story illustration...
@@ -70,7 +78,7 @@ function App() {
               <img
                 src={imageUrl}
                 alt="Story illustration"
-                className="rounded-lg shadow-lg max-w-[512px]"
+                className="rounded-lg shadow-lg w-screen h-screen"
               />
             )}
             <button

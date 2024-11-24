@@ -1,3 +1,4 @@
+import { stories } from "../stories";
 import { useState } from "react";
 import { ButtonCard } from "./ButtonCard";
 import adventureImage from "../../assets/adventureImage.jpeg";
@@ -5,13 +6,27 @@ import romanceImage from "../../assets/romanceImage.avif";
 import horrorImage from "../../assets/horrorImage.webp";
 import comedyImage from "../../assets/comedyImage.jpg";
 
-export const StartPage = ({ selectedTheme, setSelectedTheme, setPhase }) => {
-  // Create an object to map themes to their background images
+export const StartPage = ({
+  selectedTheme,
+  setSelectedTheme,
+  setPhase,
+  setIntialStory,
+  setInitialWords,
+}) => {
   const themeData = {
     Adventure: adventureImage,
     Romance: romanceImage,
     Horror: horrorImage,
     Comedy: comedyImage,
+  };
+
+  const handleBeginJourney = () => {
+    if (selectedTheme) {
+      const selectedStory = stories[selectedTheme];
+      setIntialStory(selectedStory.story);
+      setInitialWords(selectedStory.words);
+      setPhase(2);
+    }
   };
 
   return (
@@ -38,7 +53,7 @@ export const StartPage = ({ selectedTheme, setSelectedTheme, setPhase }) => {
       <div className="w-1/2 flex items-end justify-end mt-8">
         <button
           disabled={!selectedTheme}
-          onClick={() => setPhase(2)}
+          onClick={handleBeginJourney}
           className="px-6 py-3 poppins-medium rounded-lg mr-8 bg-green-500 text-white font-semibold
                    transition-all duration-500
                    disabled:opacity-20 disabled:cursor-not-allowed
